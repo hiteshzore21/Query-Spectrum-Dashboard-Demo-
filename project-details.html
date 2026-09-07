@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Query Spectrum — Project Details</title><link rel="stylesheet" href="css/style.css"></head>
+<body>
+<div class="app-shell">
+<aside class="sidebar" id="sidebar"><div class="brand"><div class="brand-mark">QS</div><div><strong>QUERY SPECTRUM</strong><span>Research Operations</span></div></div><nav class="nav"><a class="nav-item" href="index.html"><span>▦</span> Dashboard</a><a class="nav-item active" href="projects.html"><span>▤</span> Projects</a><a class="nav-item" href="projects.html?recent=1"><span>◷</span> Recent Projects</a><a class="nav-item" href="add-project.html"><span>＋</span> Add Project</a><a class="nav-item" href="projects.html?focus=search"><span>⌕</span> Search Projects</a><a class="nav-item" href="#"><span>⚙</span> Settings</a></nav><div class="sidebar-footer"><div class="user-mini"><div class="avatar">HM</div><div><strong>Project Manager</strong><span>Internal account</span></div></div></div></aside>
+<main class="main"><header class="topbar"><button class="icon-btn menu-btn" id="menuBtn">☰</button><div class="breadcrumb"><a href="projects.html">Projects</a><b>/</b><strong id="crumbId">Details</strong></div><div class="top-actions"><div class="top-avatar">HM</div></div></header>
+<div class="content narrow" id="detailsContent"></div></main></div><div class="overlay" id="overlay"></div>
+<script src="js/data.js"></script><script>
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu();
+  const id = new URLSearchParams(location.search).get('id') || 'QS1754';
+  const p = getProjects().find(x => x.projectId.toLowerCase() === id.toLowerCase());
+  const el = document.getElementById('detailsContent');
+  if (!p) { el.innerHTML='<div class="empty-state"><div class="empty-icon">?</div><h2>Project not found</h2><p>The requested project does not exist in the current prototype data.</p><a class="btn btn-primary" href="projects.html">Back to Projects</a></div>'; return; }
+  document.getElementById('crumbId').textContent = p.projectId;
+  el.innerHTML = `
+    <section class="page-head"><div><p class="eyebrow">PROJECT DETAILS</p><h1>${escapeHtml(p.projectId)}</h1><p>Complete project information and survey access.</p></div><span class="status ${statusClass(p.status)}">${escapeHtml(p.status)}</span></section>
+    <div class="detail-grid">
+      <section class="detail-card"><div class="card-title"><h2>Project Information</h2><span class="status ${statusClass(p.status)}">${escapeHtml(p.status)}</span></div>
+        <div class="detail-fields"><div><span>Project ID</span><strong>${escapeHtml(p.projectId)}</strong></div><div><span>Survey Type</span><strong>${escapeHtml(p.surveyType)}</strong></div><div><span>Market</span><strong>${escapeHtml(p.market)}</strong></div><div><span>IR</span><strong>${escapeHtml(p.ir)}</strong></div><div><span>LOI</span><strong>${escapeHtml(p.loi)}</strong></div><div><span>Created</span><strong>${escapeHtml(p.createdAt)}</strong></div></div>
+      </section>
+      <section class="detail-card"><div class="card-title"><h2>Targeting</h2></div><div class="chips">${p.targeting.map(t=>`<span class="chip">${escapeHtml(t)}</span>`).join('')}</div></section>
+      <section class="detail-card full-span"><div class="card-title"><h2>Survey Links</h2><span class="muted">${p.surveys.length} survey${p.surveys.length===1?'':'s'}</span></div>
+      <div class="survey-list">${p.surveys.map(s=>`<div class="survey-row"><div><strong>${escapeHtml(s.name)}</strong><span>${escapeHtml(s.url)}</span></div><a class="btn btn-primary" href="${escapeAttr(s.url)}" target="_blank" rel="noopener">Open Survey ↗</a></div>`).join('')}</div></section>
+    </div>`;
+});
+</script></body></html>

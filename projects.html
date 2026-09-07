@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Query Spectrum — Projects</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand"><div class="brand-mark">QS</div><div><strong>QUERY SPECTRUM</strong><span>Research Operations</span></div></div>
+    <nav class="nav">
+      <a class="nav-item" href="index.html"><span>▦</span> Dashboard</a>
+      <a class="nav-item active" href="projects.html"><span>▤</span> Projects</a>
+      <a class="nav-item" href="projects.html?recent=1"><span>◷</span> Recent Projects</a>
+      <a class="nav-item" href="add-project.html"><span>＋</span> Add Project</a>
+      <a class="nav-item" href="projects.html?focus=search"><span>⌕</span> Search Projects</a>
+      <a class="nav-item" href="#"><span>⚙</span> Settings</a>
+    </nav>
+    <div class="sidebar-footer"><div class="user-mini"><div class="avatar">HM</div><div><strong>Project Manager</strong><span>Internal account</span></div></div></div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><button class="icon-btn menu-btn" id="menuBtn">☰</button><div class="breadcrumb"><span>Workspace</span><b>/</b><strong>Projects</strong></div><div class="top-actions"><button class="icon-btn">♢<i></i></button><div class="top-avatar">HM</div></div></header>
+    <div class="content">
+      <section class="page-head"><div><p class="eyebrow">PROJECT LIBRARY</p><h1>All Projects</h1><p>Browse, filter, and open complete project information.</p></div><a class="btn btn-primary" href="add-project.html">＋ Add Project</a></section>
+      <section class="filter-card">
+        <div class="search-box"><span>⌕</span><input id="projectSearch" type="search" placeholder="Search Project ID, market, targeting, survey type..."></div>
+        <select id="typeFilter"><option value="">All survey types</option><option>B2B</option><option>B2C</option></select>
+        <select id="statusFilter"><option value="">All statuses</option><option>Active</option><option>Completed</option><option>Paused</option></select>
+      </section>
+      <div class="results-meta"><span id="resultCount"></span><button class="text-link" id="clearFilters">Clear filters</button></div>
+      <section class="table-card">
+        <div class="table-wrap">
+          <table><thead><tr><th>Project ID</th><th>Survey Type</th><th>Market</th><th>IR</th><th>LOI</th><th>Status</th><th>Created</th><th>Action</th></tr></thead><tbody id="projectsTable"></tbody></table>
+        </div>
+        <div class="empty-state hidden" id="emptyState"><div class="empty-icon">⌕</div><h3>No projects found matching your search.</h3><p>Try a different Project ID, market, or keyword.</p></div>
+      </section>
+    </div>
+  </main>
+</div>
+<div class="overlay" id="overlay"></div>
+<script src="js/data.js"></script><script src="js/projects.js"></script>
+</body>
+</html>

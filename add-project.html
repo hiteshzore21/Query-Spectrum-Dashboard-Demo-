@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Query Spectrum — Add Project</title><link rel="stylesheet" href="css/style.css"></head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar"><div class="brand"><div class="brand-mark">QS</div><div><strong>QUERY SPECTRUM</strong><span>Research Operations</span></div></div><nav class="nav"><a class="nav-item" href="index.html"><span>▦</span> Dashboard</a><a class="nav-item" href="projects.html"><span>▤</span> Projects</a><a class="nav-item" href="projects.html?recent=1"><span>◷</span> Recent Projects</a><a class="nav-item active" href="add-project.html"><span>＋</span> Add Project</a><a class="nav-item" href="projects.html?focus=search"><span>⌕</span> Search Projects</a><a class="nav-item" href="#"><span>⚙</span> Settings</a></nav><div class="sidebar-footer"><div class="user-mini"><div class="avatar">HM</div><div><strong>Project Manager</strong><span>Internal account</span></div></div></div></aside>
+  <main class="main"><header class="topbar"><button class="icon-btn menu-btn" id="menuBtn">☰</button><div class="breadcrumb"><span>Workspace</span><b>/</b><strong>Add Project</strong></div><div class="top-actions"><div class="top-avatar">HM</div></div></header>
+  <div class="content narrow">
+    <section class="page-head"><div><p class="eyebrow">PROJECT MANAGEMENT</p><h1>Add New Project</h1><p>Create a project and publish it immediately to the frontend prototype.</p></div></section>
+    <form class="form-card" id="addProjectForm">
+      <div class="form-section"><h2>Project information</h2><div class="form-grid">
+        <label>Project ID<input name="projectId" required placeholder="QS1755"></label>
+        <label>Survey Type<select name="surveyType" required><option>B2B</option><option>B2C</option></select></label>
+        <label>Market<input name="market" required placeholder="US, UK"></label>
+        <label>IR<input name="ir" required placeholder="60%"></label>
+        <label>LOI<input name="loi" required placeholder="15 mins"></label>
+        <label>Status<select name="status"><option>Active</option><option>Paused</option><option>Completed</option></select></label>
+      </div></div>
+      <div class="form-section"><h2>Targeting & survey</h2><div class="form-grid"><label class="full">Targeting <span class="hint">Separate entries with commas</span><textarea name="targeting" rows="4" required placeholder="Business Pros, Marketing Pros, Creators"></textarea></label><label>Survey Name<input name="surveyName" required placeholder="US - Marketing Pros"></label><label>Survey URL<input name="surveyUrl" type="url" required placeholder="https://example.com/survey"></label></div></div>
+      <div class="form-actions"><a class="btn btn-secondary" href="projects.html">Cancel</a><button class="btn btn-primary" type="submit">Create Project</button></div>
+    </form>
+  </div></main>
+</div><div class="overlay" id="overlay"></div><div class="toast" id="toast"></div>
+<script src="js/data.js"></script><script>
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu();
+  const form = document.getElementById('addProjectForm');
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    const project = {
+      projectId: fd.get('projectId').trim(), surveyType: fd.get('surveyType'), market: fd.get('market').trim(),
+      ir: fd.get('ir').trim(), loi: fd.get('loi').trim(), targeting: fd.get('targeting').split(',').map(x=>x.trim()).filter(Boolean),
+      status: fd.get('status'), createdAt: 'Just now', surveys: [{name: fd.get('surveyName').trim(), url: fd.get('surveyUrl').trim()}]
+    };
+    const projects = getProjects();
+    if (projects.some(p => p.projectId.toLowerCase() === project.projectId.toLowerCase())) {
+      showToast('That Project ID already exists.');
+      return;
+    }
+    projects.unshift(project); saveProjects(projects);
+    showToast('Project created successfully.');
+    setTimeout(() => location.href = 'projects.html', 700);
+  });
+});
+</script></body></html>
